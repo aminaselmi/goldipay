@@ -1,0 +1,491 @@
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import FilterData from "../Filter/FilterData";
+import { Flex, Box, Spacer } from "@chakra-ui/react";
+import { useMediaQuery } from "@chakra-ui/react";
+import Loading from "../components/Loading";
+import localProducts from "../data/products";
+
+const Products = () => {
+  const dispatch = useDispatch();
+  const products = useSelector((store) => store?.dataReducer?.products);
+  const loading = useSelector((store) => store?.dataReducer?.isLoading);
+  const [isLargerThan] = useMediaQuery("(min-width: 768px)");
+
+  useEffect(() => {
+    dispatch({
+      type: "SET_LOCAL_PRODUCTS",
+      payload: localProducts,
+    });
+  }, [dispatch]);
+
+  return (
+    <div className="AllProducts">
+      <br />
+      {loading ? (
+        <Loading />
+      ) : (
+        <Flex flexDirection={isLargerThan ? "row" : "column"}>
+          <Box w={isLargerThan ? "15%" : "100%"}>
+            <FilterData />
+          </Box>
+
+          <Spacer />
+
+          <Box w={isLargerThan ? "80%" : "100%"}>
+            {products?.map((item) => (
+              <Box key={item.id} border="1px solid gray" p="10px" m="10px">
+                <img src={item.images[0]} width="150px" alt={item.name} />
+                <h3>{item.name}</h3>
+                <p>₹{item.final_price}</p>
+              </Box>
+            ))}
+          </Box>
+        </Flex>
+      )}
+    </div>
+  );
+};
+
+export default Products;
+
+
+
+
+
+
+import { 
+  Heading, 
+  Button, 
+  Stack,
+  Box,
+  Text,
+  SimpleGrid,
+  Avatar,
+  HStack,
+  VStack,
+  Icon,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuDivider,
+  Badge,
+  Card,
+  CardBody,
+  Image,
+  Flex,
+  Grid,
+  GridItem,
+  useColorModeValue,
+  IconButton,
+  Drawer,
+  DrawerBody,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  useDisclosure
+} from "@chakra-ui/react";
+import { 
+  FiHome, 
+  FiUser, 
+  FiBriefcase, 
+  FiFileText, 
+  FiSettings, 
+  FiLogOut,
+  FiBell,
+  FiMenu,
+  FiChevronRight,
+  FiCalendar,
+  FiMessageSquare,
+  FiBarChart2,
+  FiUsers,
+  FiClock
+} from "react-icons/fi";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import{useMediaQuery}from "@chakra-ui/react";
+const SallerDashboard = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  
+  // Mock user data - replace with actual data from backend
+  const userData = {
+    name: "John Doe",
+    email: "john.doe@company.com",
+    company: "Tech Solutions Inc.",
+    avatar: "https://bit.ly/3p9jLqD",
+    notifications: 3
+  };
+
+  // Navigation items
+  const navItems = [
+    { name: "Dashboard", icon: FiHome, path: "/client/dashboard", active: true },
+    { name: "My Profile", icon: FiUser, path: "/client/profile", active: false },
+    { name: "My Projects", icon: FiBriefcase, path: "/client/projects", active: false },
+    { name: "Documents", icon: FiFileText, path: "/client/documents", active: false },
+    { name: "Messages", icon: FiMessageSquare, path: "/client/messages", badge: 2 },
+    { name: "Analytics", icon: FiBarChart2, path: "/client/analytics", active: false },
+    { name: "Settings", icon: FiSettings, path: "/client/settings", active: false }
+  ];
+
+  // Quick actions
+  const quickActions = [
+    { name: "View Profile", icon: FiUser, color: "blue", path: "/client/profile" },
+    { name: "My Projects", icon: FiBriefcase, color: "green", path: "/client/projects" },
+    { name: "Messages", icon: FiMessageSquare, color: "purple", path: "/client/messages" },
+    { name: "Settings", icon: FiSettings, color: "gray", path: "/client/settings" }
+  ];
+
+  // Recent projects
+  const recentProjects = [
+    { id: 1, name: "E-commerce Platform", status: "In Progress", progress: 75, dueDate: "2024-04-15" },
+    { id: 2, name: "Mobile App Design", status: "Review", progress: 90, dueDate: "2024-03-30" },
+    { id: 3, name: "API Integration", status: "Planning", progress: 25, dueDate: "2024-04-20" }
+  ];
+
+  const bgColor = useColorModeValue("gray.50", "gray.900");
+  const cardBg = useColorModeValue("white", "gray.800");
+  const borderColor = useColorModeValue("gray.200", "gray.700");
+  const navigate = useNavigate();
+  const [isLargerThan] = useMediaQuery("(min-width: 768px)");
+  const handleHome = () => {
+    navigate("/");
+  };
+  return (
+    <Flex minH="100vh" bg={bgColor}>
+      {/* Desktop Sidebar */}
+      <Box
+        w="280px"
+        bg={cardBg}
+        borderRight="1px"
+        borderColor={borderColor}
+        display={{ base: "none", md: "block" }}
+        position="fixed"
+        h="100vh"
+        overflowY="auto"
+      >
+        <VStack spacing={6} align="stretch" p={6}>
+          {/* Logo */}
+          <HStack spacing={3} mb={4}>
+            <Box w="40px" h="40px" bg="blue.500" borderRadius="lg" display="flex" alignItems="center" justifyContent="center">
+              <Text fontSize="xl" fontWeight="bold" color="white">P</Text>
+            </Box>
+            <Heading size="md">ProjectHub</Heading>
+          </HStack>
+
+          {/* User Profile Summary */}
+          <HStack spacing={3} p={4} bg="blue.50" borderRadius="xl">
+            <Avatar size="md" name={userData.name} src={userData.avatar} />
+            <VStack align="start" spacing={0}>
+              <Text fontWeight="bold">{userData.name}</Text>
+              <Text fontSize="sm" color="gray.600">{userData.company}</Text>
+            </VStack>
+          </HStack>
+
+          {/* Navigation Menu */}
+          <VStack spacing={1} align="stretch">
+            {navItems.map((item) => (
+              <Button
+                key={item.name}
+                variant={item.active ? "solid" : "ghost"}
+                colorScheme={item.active ? "blue" : "gray"}
+                justifyContent="flex-start"
+                leftIcon={<Icon as={item.icon} />}
+                rightIcon={item.badge && (
+                  <Badge colorScheme="red" borderRadius="full" ml={2}>
+                    {item.badge}
+                  </Badge>
+                )}
+                h="44px"
+                _hover={{ bg: item.active ? "blue.500" : "gray.100" }}
+              >
+                {item.name}
+              </Button>
+            ))}
+          </VStack>
+
+          {/* Logout Button */}
+          <Button
+            variant="ghost"
+            colorScheme="red"
+            justifyContent="flex-start"
+            leftIcon={<FiLogOut />}
+            mt="auto"
+            onClick={() => console.log("Logout")}
+          >
+            Logout
+          </Button>
+        </VStack>
+      </Box>
+
+      {/* Mobile Header */}
+      <Box
+        display={{ base: "block", md: "none" }}
+        w="100%"
+        bg={cardBg}
+        borderBottom="1px"
+        borderColor={borderColor}
+        position="fixed"
+        top={0}
+        zIndex={10}
+      >
+        <HStack justify="space-between" p={4}>
+          <HStack spacing={3}>
+            <IconButton
+              icon={<FiMenu />}
+              variant="ghost"
+              onClick={onOpen}
+              aria-label="Open menu"
+            />
+            <Box w="32px" h="32px" bg="blue.500" borderRadius="lg" display="flex" alignItems="center" justifyContent="center">
+              <Text fontSize="lg" fontWeight="bold" color="white">P</Text>
+            </Box>
+            <Heading size="sm">ProjectHub</Heading>
+          </HStack>
+          
+          <HStack spacing={2}>
+            <IconButton
+              icon={<FiBell />}
+              variant="ghost"
+              position="relative"
+              aria-label="Notifications"
+            />
+            <Avatar size="sm" name={userData.name} src={userData.avatar} />
+          </HStack>
+        </HStack>
+      </Box>
+
+      {/* Mobile Drawer */}
+      <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader borderBottomWidth="1px">
+            <HStack>
+              <Box w="32px" h="32px" bg="blue.500" borderRadius="lg" display="flex" alignItems="center" justifyContent="center">
+                <Text fontWeight="bold" color="white">P</Text>
+              </Box>
+              <Text>ProjectHub</Text>
+            </HStack>
+          </DrawerHeader>
+          <DrawerBody p={4}>
+            <VStack spacing={4} align="stretch">
+              <HStack spacing={3} p={4} bg="blue.50" borderRadius="xl">
+                <Avatar size="md" name={userData.name} src={userData.avatar} />
+                <VStack align="start" spacing={0}>
+                  <Text fontWeight="bold">{userData.name}</Text>
+                  <Text fontSize="sm" color="gray.600">{userData.email}</Text>
+                </VStack>
+              </HStack>
+
+              {navItems.map((item) => (
+                <Button
+                  key={item.name}
+                  variant="ghost"
+                  justifyContent="flex-start"
+                  leftIcon={<Icon as={item.icon} />}
+                  rightIcon={item.badge && (
+                    <Badge colorScheme="red" borderRadius="full" ml={2}>
+                      {item.badge}
+                    </Badge>
+                  )}
+                  onClick={onClose}
+                >
+                  {item.name}
+                </Button>
+              ))}
+              
+              <Button
+                variant="ghost"
+                colorScheme="red"
+                justifyContent="flex-start"
+                leftIcon={<FiLogOut />}
+                onClick={() => console.log("Logout")}
+              >
+                Logout
+              </Button>
+            </VStack>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+
+      {/* Main Content */}
+      <Box
+        flex="1"
+        ml={{ base: 0, md: "280px" }}
+        mt={{ base: "72px", md: 0 }}
+        p={8}
+      >
+        <VStack spacing={8} align="stretch">
+          {/* Welcome Header */}
+          <Flex 
+            justify="space-between" 
+            align="center" 
+            direction={{ base: "column", md: "row" }}
+            gap={4}
+          >
+            <VStack align="start" spacing={1}>
+              <Heading size="lg">Welcome back, {userData.name}! 👋</Heading>
+              <Text color="gray.500">Here's what's happening with your account today.</Text>
+            </VStack>
+            
+            <HStack spacing={4}>
+              <IconButton
+                icon={<FiBell />}
+                variant="outline"
+                aria-label="Notifications"
+                position="relative"
+              />
+              <Button 
+                leftIcon={<FiUser />} 
+                variant="outline"
+                onClick={() =>  navigate("/profile")}
+              >
+                Profile
+              </Button>
+            </HStack>
+          </Flex>
+
+          {/* Quick Actions Grid */}
+          <SimpleGrid columns={{ base: 2, md: 4 }} spacing={4}>
+            {quickActions.map((action) => (
+              <Card 
+                key={action.name}
+                bg={cardBg}
+                cursor="pointer"
+                _hover={{ transform: "translateY(-2px)", shadow: "lg" }}
+                transition="all 0.3s"
+                onClick={() => console.log(`Navigate to ${action.path}`)}
+              >
+                <CardBody>
+                  <VStack spacing={3}>
+                    <Box 
+                      p={3} 
+                      bg={`${action.color}.50`} 
+                      borderRadius="lg"
+                      color={`${action.color}.500`}
+                    >
+                      <Icon as={action.icon} boxSize={6} />
+                    </Box>
+                    <Text fontWeight="medium">{action.name}</Text>
+                  </VStack>
+                </CardBody>
+              </Card>
+            ))}
+          </SimpleGrid>
+
+          {/* Main Dashboard Grid */}
+          <Grid templateColumns={{ base: "1fr", lg: "2fr 1fr" }} gap={6}>
+            {/* Left Column - Recent Projects */}
+            <GridItem>
+              <Card bg={cardBg}>
+                <CardBody>
+                  <HStack justify="space-between" mb={4}>
+                    <Heading size="md">Recent Projects</Heading>
+                    <Button 
+                      rightIcon={<FiChevronRight />} 
+                      variant="ghost" 
+                      colorScheme="blue"
+                      size="sm"
+                    >
+                      View All
+                    </Button>
+                  </HStack>
+
+                  <VStack spacing={4} align="stretch">
+                    {recentProjects.map((project) => (
+                      <HStack 
+                        key={project.id}
+                        p={4}
+                        borderWidth="1px"
+                        borderRadius="lg"
+                        justify="space-between"
+                        _hover={{ bg: "gray.50" }}
+                        cursor="pointer"
+                      >
+                        <VStack align="start" spacing={2}>
+                          <Text fontWeight="bold">{project.name}</Text>
+                          <HStack spacing={2}>
+                            <Badge colorScheme="blue">{project.status}</Badge>
+                            <Text fontSize="sm" color="gray.500">
+                              Due: {project.dueDate}
+                            </Text>
+                          </HStack>
+                        </VStack>
+                        <Icon as={FiChevronRight} color="gray.400" />
+                      </HStack>
+                    ))}
+                  </VStack>
+                </CardBody>
+              </Card>
+            </GridItem>
+
+            {/* Right Column - Activity & Stats */}
+            <GridItem>
+              <VStack spacing={6}>
+                {/* Profile Overview Card */}
+                <Card bg={cardBg} w="100%">
+                  <CardBody>
+                    <Heading size="md" mb={4}>Profile Overview</Heading>
+                    <VStack spacing={4} align="stretch">
+                      <HStack>
+                        <Text color="gray.500" w="100px">Name:</Text>
+                        <Text fontWeight="medium">{userData.name}</Text>
+                      </HStack>
+                      <HStack>
+                        <Text color="gray.500" w="100px">Email:</Text>
+                        <Text fontWeight="medium">{userData.email}</Text>
+                      </HStack>
+                      <HStack>
+                        <Text color="gray.500" w="100px">Company:</Text>
+                        <Text fontWeight="medium">{userData.company}</Text>
+                      </HStack>
+                      <Button 
+                        size="sm" 
+                        colorScheme="blue" 
+                        variant="outline"
+                        leftIcon={<FiUser />}
+                        mt={2}
+                      >
+                        Edit Profile
+                      </Button>
+                    </VStack>
+                  </CardBody>
+                </Card>
+
+                {/* Stats Card */}
+                <Card bg={cardBg} w="100%">
+                  <CardBody>
+                    <Heading size="md" mb={4}>Quick Stats</Heading>
+                    <SimpleGrid columns={2} spacing={4}>
+                      <Box p={4} bg="blue.50" borderRadius="lg">
+                        <Text fontSize="sm" color="gray.600">Projects</Text>
+                        <Heading size="lg">8</Heading>
+                      </Box>
+                      <Box p={4} bg="green.50" borderRadius="lg">
+                        <Text fontSize="sm" color="gray.600">Messages</Text>
+                        <Heading size="lg">3</Heading>
+                      </Box>
+                      <Box p={4} bg="purple.50" borderRadius="lg">
+                        <Text fontSize="sm" color="gray.600">Documents</Text>
+                        <Heading size="lg">15</Heading>
+                      </Box>
+                      <Box p={4} bg="orange.50" borderRadius="lg">
+                        <Text fontSize="sm" color="gray.600">Tasks</Text>
+                        <Heading size="lg">24</Heading>
+                      </Box>
+                    </SimpleGrid>
+                  </CardBody>
+                </Card>
+              </VStack>
+            </GridItem>
+          </Grid>
+        </VStack>
+      </Box>
+    </Flex>
+  );
+};
+
+export default SallerDashboard;

@@ -1,0 +1,87 @@
+.lang-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.lang-dropdown-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #1a202c;
+  border: 1px solid #1a202c;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.lang-dropdown-btn:hover {
+  background: #2d3748;
+  border-color: #999;
+}
+
+.dropdown-arrow {
+  transition: transform 0.2s;
+}
+
+.dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+.lang-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 5px;
+  background: #1a202c;
+  border: 1px solid #1a202c;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  min-width: 120px;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.lang-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 15px;
+  border: none;
+  background: #1a202c;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+  text-align: left;
+}
+
+.lang-option:hover {
+  background: #1a202c;
+}
+
+.lang-option.active {
+  background: #1a202c;
+  color: #007bff;
+}
+
+.lang-flag {
+  font-size: 18px;
+}
+
+.lang-name {
+  font-weight: 500;
+}
+
+/* RTL Support */
+[dir="rtl"] .lang-dropdown-menu {
+  right: auto;
+  left: 0;
+}
+
+[dir="rtl"] .lang-option {
+  text-align: right;
+  flex-direction: row-reverse;
+}
