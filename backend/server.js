@@ -30,6 +30,7 @@ const orderRoutes = require("./routes/orderRoutes");
 
 app.use("/api/order", orderRoutes);
 
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("GoldiPay API is running...");
