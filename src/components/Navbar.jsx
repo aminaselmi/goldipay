@@ -35,7 +35,8 @@ const Navbar = () => {
     navigate("/");
   };
   //new lines
-  
+  const textColor = useColorModeValue("gray.800", "white");
+
   //loged in user
       const { user, logout } = useContext(AuthContext);
       const role = user?.role;
@@ -107,7 +108,7 @@ const Navbar = () => {
               to="/"
             >
               <Text
-                color={colorMode === "dark" ? "white" : "black"}
+                color={textColor}
                 my="4"
                 mx="2"
               >
@@ -119,7 +120,7 @@ const Navbar = () => {
               to="/products"
             >
               <Text
-                color={colorMode === "dark" ? "white" : "black"}
+                color={textColor}
                 my="4"
                 mx="2"
               >
@@ -131,7 +132,7 @@ const Navbar = () => {
               to="/men"
             >
               <Text
-                color={colorMode === "dark" ? "white" : "black"}
+                color={textColor}
                 my="4"
                 mx="2"
               >
@@ -143,7 +144,7 @@ const Navbar = () => {
               to="/women"
             >
               <Text
-                color={colorMode === "dark" ? "white" : "black"}
+                color={textColor}
                 my="4"
                 mx="2"
               >
@@ -155,7 +156,7 @@ const Navbar = () => {
               to="/shoes"
             >
               <Text
-                color={colorMode === "dark" ? "white" : "black"}
+                color={textColor}
                 my="4"
                 mx="2"
               >
