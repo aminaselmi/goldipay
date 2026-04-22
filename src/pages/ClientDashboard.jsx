@@ -69,7 +69,7 @@ const Profile = () => {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
             
-            const response = await fetch(`http://localhost:5000/api/order/user/${user.id}`, {
+            const response = await fetch(`https://goldipay.onrender.com/api/order/user/${user.id}`, {
               signal: controller.signal,
               headers: {
                 'Content-Type': 'application/json',
@@ -428,7 +428,7 @@ const Profile = () => {
                               <div className="product-info">
                                     {item.image ? (
                                       <img 
-                                        src={`http://localhost:5000/uploads/${item.image}`}
+                                        src={`https://goldipay.onrender.com/uploads/${item.image}`}
                                         alt={item.title}
                                         className="product-thumbnail"
                                         onError={(e) => {

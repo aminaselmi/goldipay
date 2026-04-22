@@ -94,7 +94,7 @@ const Checkout = () => {
         isPaid: true
       };
       
-      const res = await fetch("http://localhost:5000/api/order", {
+      const res = await fetch("https://goldipay.onrender.com/api/order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -173,7 +173,7 @@ const Checkout = () => {
           <Box key={item.id} mb="1rem">
             <Flex gap="1rem" align="center">
               <Image
-                src={`http://localhost:5000/uploads/${item.image}`}
+                src={`https://goldipay.onrender.com/uploads/${item.image}`}
                 boxSize="80px"
                 alt={t("Product image")}
               />

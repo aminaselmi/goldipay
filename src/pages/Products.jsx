@@ -24,7 +24,7 @@ const ProductsPage = () => {
   const fetchProducts = async () => {
     try {
       // Using Fake Store API as example [citation:4]
-      const response = await fetch("http://localhost:5000/api/products"); //'https://fakestoreapi.com/products'
+      const response = await fetch("https://goldipay.onrender.com/api/products"); //'https://fakestoreapi.com/products'
       const data = await response.json();
       setProducts(data);
       setFilteredProducts(data);

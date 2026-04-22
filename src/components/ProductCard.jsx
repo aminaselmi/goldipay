@@ -55,7 +55,7 @@ const ProductCard = ({ product, onAddToCart }) => {
       <div className="product-image-container">
         {!imageLoaded && <div className="image-placeholder">{t('Loading...')}</div>}
         <img
-          src={`http://localhost:5000/uploads/${image}`} 
+          src={`https://goldipay.onrender.com/uploads/${image}`} 
           alt={title}
           className={`product-image ${imageLoaded ? 'loaded' : ''}`}
           onLoad={() => setImageLoaded(true)}
@@ -115,7 +115,7 @@ const ProductCard = ({ product, onAddToCart }) => {
             <button className="close-btn" onClick={() => setShowQuickView(false)}>×</button>
             <div className="modal-body">
               <img 
-                src={`http://localhost:5000/uploads/${image}`} 
+                src={`https://goldipay.onrender.com/uploads/${image}`} 
                 alt={title} 
                 className="modal-image" 
               />
