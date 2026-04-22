@@ -11,6 +11,7 @@ const Trending = () => {
   useEffect(() => {
     if (mensD?.length === 0) {
       dispatch(getMensData());
+      console.log(getMensData());
     }
   }, [dispatch, mensD?.length]);
 
