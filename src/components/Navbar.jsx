@@ -74,8 +74,7 @@ const Navbar = () => {
   // Base and active style for NavLink
   const baseStyle = { color: "white", textDecoration: "none" };
   const activeStyle = {
-    color: "#111414ff",
-    textDecoration: "underline",
+    color: "rgb(133, 152, 152)",
     fontWeight: "bold",
   };
 
