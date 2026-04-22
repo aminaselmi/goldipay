@@ -154,7 +154,7 @@ const Cart = () => {
           <Carousel />
         </Box>
         <Box>
-          <Trending />
+          
         </Box>
       </Box>
     </>
