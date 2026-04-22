@@ -54,10 +54,7 @@ const Trending = () => {
       <Box border="1px solid beige">
         <Heading align={"left"}> TOP PICS FOR YOU</Heading>
         <Slider {...settings}>
-          {mensD?.length > 0 &&
-            mensD.map((item) => {
-              return <HomeDis key={item.key} item={item} />;
-            })}
+          
         </Slider>
       </Box>
     </div>
