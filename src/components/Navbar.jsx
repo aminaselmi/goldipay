@@ -191,23 +191,23 @@ const Navbar = () => {
               <MenuList bg={"#1a202c"}>
                 {role === "client" && (
                  <>
-                      <MenuItem icon={<FiUser />} 
+                      <MenuItem bg={"#1a202c"} icon={<FiUser />} 
                       onClick={() => navigate("/client-dashboard")}>
                         {t('My Profile')}
                       </MenuItem>
-                      <MenuItem icon={<FiShoppingCart />}
+                      <MenuItem bg={"#1a202c"} icon={<FiShoppingCart />}
                       onClick={() => navigate("/cart")}>
                         {t('Cart')}
                       </MenuItem>
-                      <MenuItem icon={<FiShoppingBag />} 
+                      <MenuItem bg={"#1a202c"} icon={<FiShoppingBag />} 
                       onClick={() => navigate("/orders")}>
                         {t('Orders')}
                       </MenuItem>
-                      <MenuItem icon={<FiHeart />}
+                      <MenuItem bg={"#1a202c"} icon={<FiHeart />}
                       onClick={() => navigate("/whishlist")}>
                         {t('Wishlist')}
                       </MenuItem>
-                      <MenuItem icon={<FiSettings />}
+                      <MenuItem bg={"#1a202c"} icon={<FiSettings />}
                       onClick={() => navigate("/settings")}>
                         {t('Settings')}
                         
@@ -215,15 +215,15 @@ const Navbar = () => {
                   </> )}
                   {role === "seller" && (
                     <>
-                     <MenuItem icon={<FiFileText />} 
+                     <MenuItem bg={"#1a202c"} icon={<FiFileText />} 
                       onClick={() => navigate("/saller-dashboard")}>
                         {t('Dashboard')}
                       </MenuItem>
-                      <MenuItem icon={<FiShoppingBag />} 
+                      <MenuItem bg={"#1a202c"} icon={<FiShoppingBag />} 
                       onClick={() => navigate("/orders")}>
                         {t('Orders')}
                       </MenuItem>
-                      <MenuItem icon={<FiSettings />}
+                      <MenuItem bg={"#1a202c"} icon={<FiSettings />}
                       onClick={() => navigate("/settings")}>
                         {t('Settings')}
                         
@@ -234,6 +234,7 @@ const Navbar = () => {
                     icon={<FiLogOut />} 
                     onClick={handleLogout}
                     color="red.500"
+                    bg={"#1a202c"}
                   >
                     {t('Logout')}
                   </MenuItem>
