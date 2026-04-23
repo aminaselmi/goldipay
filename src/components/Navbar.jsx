@@ -175,7 +175,7 @@ const Navbar = () => {
                 as={Button}
                 variant="ghost"
                 rightIcon={<FiChevronDown />}
-                _hover={{ bg: "gray.100" }}
+                _hover={{ bg: "gray.700" }}
               >
                 <HStack spacing={2}>
                   <Avatar 
@@ -183,12 +183,12 @@ const Navbar = () => {
                     name={userData.name} 
                     src={userData.avatar} 
                   />
-                  <Text display={{ base: "none", md: "block" }}>
+                  <Text color="white" display={{ base: "none", md: "block" }}>
                     {userData.name}
                   </Text>
                 </HStack>
               </MenuButton>
-              <MenuList>
+              <MenuList bg={"#1a202c"}>
                 {role === "client" && (
                  <>
                       <MenuItem icon={<FiUser />} 
