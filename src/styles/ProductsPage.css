@@ -82,6 +82,11 @@
   overflow: hidden;
   background: #f8f9fa;
 }
+@media (max-width: 768px) {
+  .product-image-container {
+    overflow: visible;
+  }
+}
 
 .product-image {
   position: absolute;
@@ -320,9 +325,14 @@
     order: 1;
   }
 
+ @media (max-width: 768px) {
   .product-actions {
-    display: none;
+    position: absolute;
+    bottom: 0;           /* show buttons */
+    display: flex;       /* make visible */
+    flex-direction: column; /* better layout */
   }
+}
 
   .add-to-cart-mobile {
     display: block;
