@@ -35,7 +35,7 @@ const Navbar = () => {
     navigate("/");
   };
   //new lines
-  const textColor = useColorModeValue("gray.800", "white");
+  //const textColor = useColorModeValue("gray.800", "white");
 
   //loged in user
       const { user, logout } = useContext(AuthContext);
@@ -74,7 +74,7 @@ const Navbar = () => {
   // Base and active style for NavLink
   const baseStyle = { color: "white", textDecoration: "none" };
   const activeStyle = {
-    color: "rgb(133, 152, 152)",
+    color: "#38B2AC",
     fontWeight: "bold",
   };
 
@@ -107,7 +107,7 @@ const Navbar = () => {
               to="/"
             >
               <Text
-                color={textColor}
+                color={"white"}
                 my="4"
                 mx="2"
               >
@@ -119,7 +119,7 @@ const Navbar = () => {
               to="/products"
             >
               <Text
-                color={textColor}
+                color={"white"}
                 my="4"
                 mx="2"
               >
@@ -131,7 +131,7 @@ const Navbar = () => {
               to="/men"
             >
               <Text
-                color={textColor}
+                color={"white"}
                 my="4"
                 mx="2"
               >
@@ -143,7 +143,7 @@ const Navbar = () => {
               to="/women"
             >
               <Text
-                color={textColor}
+                color={"white"}
                 my="4"
                 mx="2"
               >
@@ -155,7 +155,7 @@ const Navbar = () => {
               to="/shoes"
             >
               <Text
-                color={textColor}
+                color={"white"}
                 my="4"
                 mx="2"
               >
