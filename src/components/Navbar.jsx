@@ -151,7 +151,29 @@ const Navbar = () => {
         </Text>
       </HStack>
 
-     
+       {isLargerThan && (
+  <HStack ml={8}>
+    <NavLink style={({ isActive }) => (isActive ? activeStyle : baseStyle)} to="/">
+      <Text color="white" mx="2">{t("Home")}</Text>
+    </NavLink>
+
+    <NavLink style={({ isActive }) => (isActive ? activeStyle : baseStyle)} to="/products">
+      <Text color="white" mx="2">{t("Products")}</Text>
+    </NavLink>
+
+    <NavLink style={({ isActive }) => (isActive ? activeStyle : baseStyle)} to="/men">
+      <Text color="white" mx="2">{t("Men")}</Text>
+    </NavLink>
+
+    <NavLink style={({ isActive }) => (isActive ? activeStyle : baseStyle)} to="/women">
+      <Text color="white" mx="2">{t("Women")}</Text>
+    </NavLink>
+
+    <NavLink style={({ isActive }) => (isActive ? activeStyle : baseStyle)} to="/shoes">
+      <Text color="white" mx="2">{t("Shoes")}</Text>
+    </NavLink>
+  </HStack>
+)}
        {/* Right side - Changes based on login status */}
         <HStack spacing={2}>
           {isLoggedIn ? (
