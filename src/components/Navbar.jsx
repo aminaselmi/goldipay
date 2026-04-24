@@ -172,6 +172,10 @@ const Navbar = () => {
     <NavLink style={({ isActive }) => (isActive ? activeStyle : baseStyle)} to="/shoes">
       <Text color="white" mx="2">{t("Shoes")}</Text>
     </NavLink>
+       {/* Language Switcher */}
+        <Box pt={4}>
+          <LanguageSwitcher />
+        </Box>
   </HStack>
 )}
        {/* Right side - Changes based on login status */}
