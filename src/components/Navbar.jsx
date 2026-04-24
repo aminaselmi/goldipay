@@ -21,7 +21,8 @@ import {
   FiShoppingCart,
   FiHeart,
   FiShoppingBag,
-  FiDatabase
+  FiDatabase,
+  FiMenu
 } from "react-icons/fi";
 import LanguageSwitcher from './LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
@@ -36,7 +37,7 @@ const Navbar = () => {
   };
   //new lines
   //const textColor = useColorModeValue("gray.800", "white");
-
+   const [isOpen, setIsOpen] = useState(false);
   //loged in user
       const { user, logout } = useContext(AuthContext);
       const role = user?.role;
@@ -163,7 +164,30 @@ const Navbar = () => {
               </Text>
             </NavLink>
           </HStack>
-        ) : null}
+              ) : ( <Box>
+          <Button onClick={() => setIsOpen(!isOpen)}>
+            <FiMenu />
+          </Button>
+
+          {isOpen && (
+            <Box
+              position="absolute"
+              top="70px"
+              left="0"
+              width="100%"
+              bg="gray.800"
+              p="4"
+              zIndex="1000"
+            >
+              <NavLink to="/"><Text color="white">{t("Home")}</Text></NavLink>
+              <NavLink to="/products"><Text color="white">{t("Products")}</Text></NavLink>
+              <NavLink to="/men"><Text color="white">{t("Men")}</Text></NavLink>
+              <NavLink to="/women"><Text color="white">{t("Women")}</Text></NavLink>
+              <NavLink to="/shoes"><Text color="white">{t("Shoes")}</Text></NavLink>
+            </Box>
+          )}
+        </Box>
+      )}
 
       <Spacer />
         <LanguageSwitcher />
