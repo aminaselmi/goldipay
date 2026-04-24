@@ -164,30 +164,56 @@ const Navbar = () => {
               </Text>
             </NavLink>
           </HStack>
-              ) : ( <Box>
-          <Button onClick={() => setIsOpen(!isOpen)}>
-            <FiMenu />
-          </Button>
+              ) : (  
+                  <>
+                    <Button
+                      variant="ghost"
+                      color="white"
+                      onClick={() => setIsOpen(!isOpen)}
+                    >
+                      <FiMenu size={24} />
+                    </Button>
 
-          {isOpen && (
-            <Box
-              position="absolute"
-              top="70px"
-              left="0"
-              width="100%"
-              bg="gray.800"
-              p="4"
-              zIndex="1000"
-            >
-              <NavLink to="/"><Text color="white">{t("Home")}</Text></NavLink>
-              <NavLink to="/products"><Text color="white">{t("Products")}</Text></NavLink>
-              <NavLink to="/men"><Text color="white">{t("Men")}</Text></NavLink>
-              <NavLink to="/women"><Text color="white">{t("Women")}</Text></NavLink>
-              <NavLink to="/shoes"><Text color="white">{t("Shoes")}</Text></NavLink>
-            </Box>
+              {isOpen && (
+                <Box
+                  position="absolute"
+                  top="70px"
+                  left="0"
+                  width="100%"
+                  bg="gray.900"
+                  p="4"
+                  zIndex="1000"
+                >
+                  <HStack flexDirection="column" align="flex-start" spacing={4}>
+                    <NavLink to="/" onClick={() => setIsOpen(false)}>
+                      <Text color="white">{t("Home")}</Text>
+                    </NavLink>
+
+                    <NavLink to="/products" onClick={() => setIsOpen(false)}>
+                      <Text color="white">{t("Products")}</Text>
+                    </NavLink>
+
+                    <NavLink to="/men" onClick={() => setIsOpen(false)}>
+                      <Text color="white">{t("Men")}</Text>
+                    </NavLink>
+
+                    <NavLink to="/women" onClick={() => setIsOpen(false)}>
+                      <Text color="white">{t("Women")}</Text>
+                    </NavLink>
+
+                    <NavLink to="/shoes" onClick={() => setIsOpen(false)}>
+                      <Text color="white">{t("Shoes")}</Text>
+                    </NavLink>
+
+                    {/* Language switcher */}
+                    <Box pt={2}>
+                      <LanguageSwitcher />
+                    </Box>
+                  </HStack>
+                </Box>
+              )}
+            </>
           )}
-        </Box>
-      )}
 
       <Spacer />
         <LanguageSwitcher />
