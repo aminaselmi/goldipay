@@ -26,7 +26,15 @@ import {
 } from "react-icons/fi";
 import LanguageSwitcher from './LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
-
+import {
+  Drawer,
+  DrawerBody,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  DrawerHeader,
+  useDisclosure
+} from "@chakra-ui/react";
 const Navbar = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -36,8 +44,7 @@ const Navbar = () => {
     navigate("/");
   };
   //new lines
-  //const textColor = useColorModeValue("gray.800", "white");
-   const [isOpen, setIsOpen] = useState(false);
+   const { isOpen, onOpen, onClose } = useDisclosure();
   //loged in user
       const { user, logout } = useContext(AuthContext);
       const role = user?.role;
@@ -87,6 +94,11 @@ const Navbar = () => {
       bg="#1a202c"
       color="white"
     >
+       {!isLargerThan && (
+          <Button variant="ghost" color="white" onClick={onOpen}>
+            <FiMenu size={24} />
+          </Button>
+        )}
       {/* Logo */}
       <HStack onClick={handleHome} cursor="pointer">
         <Image
@@ -100,123 +112,45 @@ const Navbar = () => {
       </HStack>
 
       {/* Navigation Links */}
-      <Spacer />
-        {isLargerThan ? (
-          <HStack>
-            <NavLink
-              style={({ isActive }) => (isActive ? activeStyle : baseStyle)}
-              to="/"
-            >
-              <Text
-                color={"white"}
-                my="4"
-                mx="2"
-              >
-                {t('Home')}
-              </Text>
-            </NavLink>
-            <NavLink
-              style={({ isActive }) => (isActive ? activeStyle : baseStyle)}
-              to="/products"
-            >
-              <Text
-                color={"white"}
-                my="4"
-                mx="2"
-              >
-                {t('Products')}
-              </Text>
-            </NavLink>
-            <NavLink
-              style={({ isActive }) => (isActive ? activeStyle : baseStyle)}
-              to="/men"
-            >
-              <Text
-                color={"white"}
-                my="4"
-                mx="2"
-              >
-                {t('Men')}
-              </Text>
-            </NavLink>
-            <NavLink
-              style={({ isActive }) => (isActive ? activeStyle : baseStyle)}
-              to="/women"
-            >
-              <Text
-                color={"white"}
-                my="4"
-                mx="2"
-              >
-                {t('Women')}
-              </Text>
-            </NavLink>
-            <NavLink
-              style={({ isActive }) => (isActive ? activeStyle : baseStyle)}
-              to="/shoes"
-            >
-              <Text
-                color={"white"}
-                my="4"
-                mx="2"
-              >
-                {t('Shoes')}
-              </Text>
-            </NavLink>
-          </HStack>
-              ) : (  
-                  <>
-                    <Button
-                      variant="ghost"
-                      color="white"
-                      onClick={() => setIsOpen(!isOpen)}
-                    >
-                      <FiMenu size={24} />
-                    </Button>
+      <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+  <DrawerOverlay />
+  <DrawerContent bg="gray.900" color="white">
+    <DrawerCloseButton />
 
-              {isOpen && (
-                <Box
-                  position="absolute"
-                  top="70px"
-                  left="0"
-                  width="100%"
-                  bg="gray.900"
-                  p="4"
-                  zIndex="1000"
-                >
-                  <HStack flexDirection="column" align="flex-start" spacing={4}>
-                    <NavLink to="/" onClick={() => setIsOpen(false)}>
-                      <Text color="white">{t("Home")}</Text>
-                    </NavLink>
+    <DrawerHeader borderBottomWidth="1px">
+      Menu
+    </DrawerHeader>
 
-                    <NavLink to="/products" onClick={() => setIsOpen(false)}>
-                      <Text color="white">{t("Products")}</Text>
-                    </NavLink>
+    <DrawerBody>
+      <HStack flexDirection="column" align="flex-start" spacing={4}>
+        <NavLink to="/" onClick={onClose}>
+          <Text>{t("Home")}</Text>
+        </NavLink>
 
-                    <NavLink to="/men" onClick={() => setIsOpen(false)}>
-                      <Text color="white">{t("Men")}</Text>
-                    </NavLink>
+        <NavLink to="/products" onClick={onClose}>
+          <Text>{t("Products")}</Text>
+        </NavLink>
 
-                    <NavLink to="/women" onClick={() => setIsOpen(false)}>
-                      <Text color="white">{t("Women")}</Text>
-                    </NavLink>
+        <NavLink to="/men" onClick={onClose}>
+          <Text>{t("Men")}</Text>
+        </NavLink>
 
-                    <NavLink to="/shoes" onClick={() => setIsOpen(false)}>
-                      <Text color="white">{t("Shoes")}</Text>
-                    </NavLink>
+        <NavLink to="/women" onClick={onClose}>
+          <Text>{t("Women")}</Text>
+        </NavLink>
 
-                    {/* Language switcher */}
-                    <Box pt={2}>
-                      <LanguageSwitcher />
-                    </Box>
-                  </HStack>
-                </Box>
-              )}
-            </>
-          )}
+        <NavLink to="/shoes" onClick={onClose}>
+          <Text>{t("Shoes")}</Text>
+        </NavLink>
 
-      <Spacer />
-        <LanguageSwitcher />
+        {/* Language Switcher */}
+        <Box pt={4}>
+          <LanguageSwitcher />
+        </Box>
+      </HStack>
+    </DrawerBody>
+  </DrawerContent>
+</Drawer>
        {/* Right side - Changes based on login status */}
         <HStack spacing={2}>
           {isLoggedIn ? (
