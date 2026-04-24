@@ -173,9 +173,9 @@ const Navbar = () => {
       <Text color="white" mx="2">{t("Shoes")}</Text>
     </NavLink>
        {/* Language Switcher */}
-        <Box pt={4}>
+        
           <LanguageSwitcher />
-        </Box>
+        
   </HStack>
 )}
        {/* Right side - Changes based on login status */}
