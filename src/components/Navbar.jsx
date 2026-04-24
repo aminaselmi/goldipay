@@ -99,19 +99,7 @@ const Navbar = () => {
             <FiMenu size={24} />
           </Button>
         )}
-      {/* Logo */}
-      <HStack onClick={handleHome} cursor="pointer">
-        <Image
-          src="/images/gpicon.ico"
-          alt="GoldiPay Logo"
-          width={["45px", "50px", "60px"]}
-        />
-        <Text fontSize="xl" fontWeight="bold">
-          GoldiPay
-        </Text>
-      </HStack>
-
-      {/* Navigation Links */}
+         {/* Navigation Links */}
       <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
   <DrawerOverlay />
   <DrawerContent bg="gray.900" color="white">
@@ -151,6 +139,19 @@ const Navbar = () => {
     </DrawerBody>
   </DrawerContent>
 </Drawer>
+      {/* Logo */}
+      <HStack onClick={handleHome} cursor="pointer">
+        <Image
+          src="/images/gpicon.ico"
+          alt="GoldiPay Logo"
+          width={["45px", "50px", "60px"]}
+        />
+        <Text fontSize="xl" fontWeight="bold">
+          GoldiPay
+        </Text>
+      </HStack>
+
+     
        {/* Right side - Changes based on login status */}
         <HStack spacing={2}>
           {isLoggedIn ? (
