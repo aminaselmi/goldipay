@@ -14,7 +14,7 @@ const ProductList = ({ products, onEdit, onRefresh }) => {
   const [bulkDeleteMode, setBulkDeleteMode] = useState(false);
   
   const { deleteProduct, bulkDeleteProducts, updateProductStatus } = useSeller();
-
+   
   // Filter products based on search and category
   const filteredProducts = products.filter(product => {
     const matchesSearch = product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -56,7 +56,7 @@ const ProductList = ({ products, onEdit, onRefresh }) => {
     if (selectedProducts.length === filteredProducts.length) {
       setSelectedProducts([]);
     } else {
-      setSelectedProducts(filteredProducts.map(p => p.id));
+      setSelectedProducts(filteredProducts.map(p => p._id));
     }
   };
 
