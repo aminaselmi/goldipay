@@ -37,7 +37,7 @@ const ProductList = ({ products, onEdit, onRefresh }) => {
       setSelectedProducts([]);
       setBulkDeleteMode(false);
     } else if (productToDelete) {
-      await deleteProduct(productToDelete.id);
+      await deleteProduct(productToDelete._id);
     }
     
     setShowDeleteModal(false);
@@ -75,7 +75,7 @@ const ProductList = ({ products, onEdit, onRefresh }) => {
 
   const handleDuplicate = async (product) => {
     // Create a copy of the product with new ID
-    const { id, ...productData } = product;
+    const { _id, ...productData } = product;
     // Call API to duplicate
     onRefresh();
   };
@@ -148,7 +148,7 @@ const ProductList = ({ products, onEdit, onRefresh }) => {
                 </td>
                 <td className="product-info-cell">
                   <img 
-                    src={product.images?.[0]?.url || '/placeholder.jpg'} 
+                    src={`https://goldipay.onrender.com/uploads/${product.image}`} 
                     alt={product.title}
                     className="product-thumbnail"
                   />
