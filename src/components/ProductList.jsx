@@ -12,7 +12,7 @@ const ProductList = ({ products, onEdit, onRefresh }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
   const [bulkDeleteMode, setBulkDeleteMode] = useState(false);
-  
+  console.log(products);
   const { deleteProduct, bulkDeleteProducts, updateProductStatus } = useSeller();
    
   // Filter products based on search and category
