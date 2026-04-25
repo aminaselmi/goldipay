@@ -121,14 +121,27 @@ export const SellerProvider = ({ children }) => {
  const bulkDeleteProducts = async (productIds) => {
   setLoading(true);
   console.log("Sending:", productIds);
+
   try {
-    const response = await fetch('https://goldipay.onrender.com/api/products/bulk', {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ids: productIds })
-    });
-    if (!response.ok) throw new Error('Failed to bulk delete products');
-    setProducts(prev => prev.filter(p => !productIds.includes(p._id)));
+    const response = await fetch(
+      'https://goldipay.onrender.com/api/products/bulk',
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ productIds }) // ✅ FIXED HERE
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Failed to bulk delete products');
+    }
+
+    setProducts(prev =>
+      prev.filter(p => !productIds.includes(p._id))
+    );
+
   } catch (err) {
     setError(err.message);
     throw err;
@@ -136,7 +149,6 @@ export const SellerProvider = ({ children }) => {
     setLoading(false);
   }
 };
-
   const updateProductStatus = async (productId, status) => {
     setLoading(true);
     try {
