@@ -45,7 +45,7 @@ export const SellerProvider = ({ children }) => {
         totalRevenue: 12450.75,
         averageOrderValue: 79.81,
         topProducts: products.slice(0, 3).map(p => ({
-          id: p.id,
+          id: p._id,
           name: p.title,
           image: p.image,
           sales: Math.floor(Math.random() * 50) + 10,
@@ -93,7 +93,7 @@ export const SellerProvider = ({ children }) => {
     });
     if (!response.ok) throw new Error('Failed to update product');
     const updatedProduct = await response.json();
-    setProducts(prev => prev.map(p => p.id === productId ? updatedProduct : p));
+    setProducts(prev => prev.map(p => p._id === productId ? updatedProduct : p));
   } catch (err) {
     setError(err.message);
     throw err;
@@ -109,7 +109,7 @@ export const SellerProvider = ({ children }) => {
       method: 'DELETE',
     });
     if (!response.ok) throw new Error('Failed to delete product');
-    setProducts(prev => prev.filter(p => p.id !== productId));
+    setProducts(prev => prev.filter(p => p._id !== productId));
   } catch (err) {
     setError(err.message);
     throw err;
@@ -124,10 +124,10 @@ export const SellerProvider = ({ children }) => {
     const response = await fetch('https://goldipay.onrender.com/api/products/bulk', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ productIds })
+      body: JSON.stringify({ ids: productIds })
     });
     if (!response.ok) throw new Error('Failed to bulk delete products');
-    setProducts(prev => prev.filter(p => !productIds.includes(p.id)));
+    setProducts(prev => prev.filter(p => !productIds.includes(p._id)));
   } catch (err) {
     setError(err.message);
     throw err;
@@ -141,7 +141,7 @@ export const SellerProvider = ({ children }) => {
     try {
       await new Promise(resolve => setTimeout(resolve, 300));
       setProducts(prev => prev.map(p => 
-        p.id === productId ? { ...p, status } : p
+        p._id === productId ? { ...p, status } : p
       ));
     } catch (err) {
       setError(err.message);

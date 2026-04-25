@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 const DashboardStats = () => {
   const { t } = useTranslation();
-  const { getDashboardStats } = useSeller();
+  const { refreshStats } = useSeller();
   const [stats, setStats] = useState({
     totalProducts: 0,
     totalOrders: 0,
@@ -24,7 +24,7 @@ const DashboardStats = () => {
   const loadStats = async () => {
     setLoading(true);
     try {
-      const data = await getDashboardStats();
+      const data = await refreshStats();
       setStats(data);
     } catch (error) {
       console.error('Error loading stats:', error);
