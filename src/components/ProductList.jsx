@@ -138,12 +138,12 @@ const ProductList = ({ products, onEdit, onRefresh }) => {
           </thead>
           <tbody>
             {filteredProducts.map(product => (
-              <tr key={product.id} className={selectedProducts.includes(product.id) ? 'selected' : ''}>
+              <tr key={product._id} className={selectedProducts.includes(product._id) ? 'selected' : ''}>
                 <td>
                   <input
                     type="checkbox"
-                    checked={selectedProducts.includes(product.id)}
-                    onChange={() => handleSelectProduct(product.id)}
+                    checked={selectedProducts.includes(product._id)}
+                    onChange={() => handleSelectProduct(product._id)}
                   />
                 </td>
                 <td className="product-info-cell">
@@ -154,7 +154,7 @@ const ProductList = ({ products, onEdit, onRefresh }) => {
                   />
                   <div className="product-details">
                     <span className="product-title">{product.title}</span>
-                    <span className="product-id">{t('ID')}: {product.id}</span>
+                    <span className="product-id">{t('ID')}: {product._id}</span>
                   </div>
                 </td>
                 <td>{product.sku || t('N/A')}</td>
@@ -173,7 +173,7 @@ const ProductList = ({ products, onEdit, onRefresh }) => {
                 <td>
                   <select
                     value={product.status}
-                    onChange={(e) => handleStatusChange(product.id, e.target.value)}
+                    onChange={(e) => handleStatusChange(product._id, e.target.value)}
                     className={`status-select status-${product.status}`}
                   >
                     <option value="published">{t('Published')}</option>
