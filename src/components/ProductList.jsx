@@ -1,4 +1,3 @@
-// components/seller/ProductList.jsx
 import React, { useState } from 'react';
 import { useSeller } from '../context/SellerContext';
 import '../styles/ProductList.css';
@@ -6,50 +5,43 @@ import { useTranslation } from 'react-i18next';
 
 const ProductList = ({ products, onEdit, onRefresh }) => {
   const { t } = useTranslation();
+
+  const {
+    deleteProduct,
+    bulkDeleteProducts,
+    updateProductStatus
+  } = useSeller();
+
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   const [productToDelete, setProductToDelete] = useState(null);
-  const [bulkDeleteMode, setBulkDeleteMode] = useState(false);
-  console.log(products);
-  const { deleteProduct, bulkDeleteProducts, updateProductStatus } = useSeller();
-   
-  // Filter products based on search and category
-  const filteredProducts = products.filter(product => {
-    const matchesSearch = product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         product.sku?.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
+  const [isBulkDelete, setIsBulkDelete] = useState(false);
+
+  // ================= FILTER =================
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch =
+      product.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.sku?.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesCategory =
+      selectedCategory === 'all' || product.category === selectedCategory;
+
     return matchesSearch && matchesCategory;
   });
 
-  // Get unique categories
   const categories = ['all', ...new Set(products.map(p => p.category))];
 
-  const handleDeleteClick = (product) => {
-    setProductToDelete(product);
-    setShowDeleteModal(true);
-  };
-
-  const handleConfirmDelete = async () => {
-    if (bulkDeleteMode && selectedProducts.length > 0) {
-      await bulkDeleteProducts(selectedProducts);
-      setSelectedProducts([]);
-      setBulkDeleteMode(false);
-    } else if (productToDelete) {
-      await deleteProduct(productToDelete._id);
-    }
-    
-    setShowDeleteModal(false);
-    setProductToDelete(null);
-    onRefresh();
-  };
-
-  const handleBulkDelete = () => {
-    if (selectedProducts.length > 0) {
-      setBulkDeleteMode(true);
-      setShowDeleteModal(true);
-    }
+  // ================= SELECT =================
+  const handleSelectProduct = (id) => {
+    setSelectedProducts((prev) =>
+      prev.includes(id)
+        ? prev.filter((x) => x !== id)
+        : [...prev, id]
+    );
   };
 
   const handleSelectAll = () => {
@@ -60,194 +52,165 @@ const ProductList = ({ products, onEdit, onRefresh }) => {
     }
   };
 
-  const handleSelectProduct = (productId) => {
-    setSelectedProducts(prev => 
-      prev.includes(productId)
-        ? prev.filter(id => id !== productId)
-        : [...prev, productId]
-    );
+  // ================= DELETE =================
+  const handleDeleteClick = (product) => {
+    setProductToDelete(product);
+    setIsBulkDelete(false);
+    setShowDeleteModal(true);
   };
 
-  const handleStatusChange = async (productId, newStatus) => {
-    await updateProductStatus(productId, newStatus);
-    onRefresh();
+  const handleBulkDeleteClick = () => {
+    if (selectedProducts.length === 0) return;
+
+    setProductToDelete(null);
+    setIsBulkDelete(true);
+    setShowDeleteModal(true);
   };
 
-  const handleDuplicate = async (product) => {
-    // Create a copy of the product with new ID
-    const { _id, ...productData } = product;
-    // Call API to duplicate
+  const handleConfirmDelete = async () => {
+    try {
+      if (isBulkDelete) {
+        await bulkDeleteProducts(selectedProducts);
+        setSelectedProducts([]);
+      } else {
+        await deleteProduct(productToDelete._id);
+      }
+
+      setShowDeleteModal(false);
+      setProductToDelete(null);
+      setIsBulkDelete(false);
+
+      onRefresh();
+    } catch (err) {
+      console.error('Delete error:', err);
+    }
+  };
+
+  // ================= STATUS =================
+  const handleStatusChange = async (id, status) => {
+    await updateProductStatus(id, status);
     onRefresh();
   };
 
   return (
     <div className="product-list-container">
-      {/* Header with search and filters */}
+
+      {/* HEADER */}
       <div className="list-header">
-        <div className="search-bar">
-          <i className="icon-search"></i>
-          <input
-            type="text"
-            placeholder={t('Search products by name or SKU...')}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
+        <input
+          placeholder={t('Search products...')}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
 
-        <div className="filter-controls">
-          <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-          >
-            {categories.map(cat => (
-              <option key={cat} value={cat}>
-                {cat === 'all' ? t('All Categories') : cat}
-              </option>
-            ))}
-          </select>
+        <select
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+        >
+          {categories.map((c) => (
+            <option key={c} value={c}>
+              {c === 'all' ? t('All') : c}
+            </option>
+          ))}
+        </select>
 
-          {selectedProducts.length > 0 && (
-            <button className="btn-danger" onClick={handleBulkDelete}>
-              <i className="icon-delete"></i>
-              {t('Delete Selected')} ({selectedProducts.length})
-            </button>
-          )}
-        </div>
+        {selectedProducts.length > 0 && (
+          <button onClick={handleBulkDeleteClick} className="btn-danger">
+            {t('Delete Selected')} ({selectedProducts.length})
+          </button>
+        )}
       </div>
 
-      {/* Products Table */}
-      <div className="table-responsive">
-        <table className="products-table">
-          <thead>
-            <tr>
-              <th>
+      {/* TABLE */}
+      <table className="products-table">
+        <thead>
+          <tr>
+            <th>
+              <input
+                type="checkbox"
+                checked={
+                  filteredProducts.length > 0 &&
+                  selectedProducts.length === filteredProducts.length
+                }
+                onChange={handleSelectAll}
+              />
+            </th>
+            <th>{t('Product')}</th>
+            <th>{t('Price')}</th>
+            <th>{t('Stock')}</th>
+            <th>{t('Status')}</th>
+            <th>{t('Actions')}</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {filteredProducts.map((product) => (
+            <tr
+              key={product._id}
+              className={selectedProducts.includes(product._id) ? 'selected' : ''}
+            >
+              <td>
                 <input
                   type="checkbox"
-                  checked={selectedProducts.length === filteredProducts.length && filteredProducts.length > 0}
-                  onChange={handleSelectAll}
+                  checked={selectedProducts.includes(product._id)}
+                  onChange={() => handleSelectProduct(product._id)}
                 />
-              </th>
-              <th>{t('Product')}</th>
-              <th>{t('SKU')}</th>
-              <th>{t('Category')}</th>
-              <th>{t('Price')}</th>
-              <th>{t('Stock')}</th>
-              <th>{t('Status')}</th>
-              <th>{t('Actions')}</th>
+              </td>
+
+              <td>
+                <div>
+                  <strong>{product.title}</strong>
+                </div>
+              </td>
+
+              <td>${product.price}</td>
+
+              <td>{product.stock}</td>
+
+              <td>
+                <select
+                  value={product.status}
+                  onChange={(e) =>
+                    handleStatusChange(product._id, e.target.value)
+                  }
+                >
+                  <option value="published">Published</option>
+                  <option value="draft">Draft</option>
+                  <option value="archived">Archived</option>
+                </select>
+              </td>
+
+              <td>
+                <button onClick={() => onEdit(product)}>Edit</button>
+
+                <button onClick={() => handleDeleteClick(product)}>
+                  Delete
+                </button>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {filteredProducts.map(product => (
-              <tr key={product._id} className={selectedProducts.includes(product._id) ? 'selected' : ''}>
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={selectedProducts.includes(product._id)}
-                    onChange={() => handleSelectProduct(product._id)}
-                  />
-                </td>
-                <td className="product-info-cell">
-                  <img 
-                    src={`https://goldipay.onrender.com/uploads/${product.image}`} 
-                    alt={product.title}
-                    className="product-thumbnail"
-                  />
-                  <div className="product-details">
-                    <span className="product-title">{product.title}</span>
-                    <span className="product-id">{t('ID')}: {product._id}</span>
-                  </div>
-                </td>
-                <td>{product.sku || t('N/A')}</td>
-                <td>{product.category}</td>
-                <td>
-                  <span className="product-price">${product.price}</span>
-                  {product.discount && (
-                    <span className="product-discount">-{product.discount}%</span>
-                  )}
-                </td>
-                <td>
-                  <span className={`stock-badge ${product.stock > 0 ? 'in-stock' : 'out-of-stock'}`}>
-                    {product.stock > 0 ? `${product.stock} ${t('units')}` : t('Out of Stock')}
-                  </span>
-                </td>
-                <td>
-                  <select
-                    value={product.status}
-                    onChange={(e) => handleStatusChange(product._id, e.target.value)}
-                    className={`status-select status-${product.status}`}
-                  >
-                    <option value="published">{t('Published')}</option>
-                    <option value="draft">{t('Draft')}</option>
-                    <option value="archived">{t('Archived')}</option>
-                  </select>
-                </td>
-                <td className="action-buttons">
-                  <button 
-                    className="btn-icon" 
-                    onClick={() => onEdit(product)}
-                    title={t('Edit product')}
-                  >
-                    <i className="icon-edit"></i>
-                  </button>
-                  <button 
-                    className="btn-icon" 
-                    onClick={() => handleDuplicate(product)}
-                    title={t('Duplicate product')}
-                  >
-                    <i className="icon-copy"></i>
-                  </button>
-                  <button 
-                    className="btn-icon delete" 
-                    onClick={() => handleDeleteClick(product)}
-                    title={t('Delete product')}
-                  >
-                    <i className="icon-trash"></i>
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
 
-      {/* Pagination */}
-      <div className="table-footer">
-        <div className="pagination-info">
-          {t('Showing')} {filteredProducts.length} {t('of')} {products.length} {t('products')}
-        </div>
-        <div className="pagination-controls">
-          <button className="pagination-btn" disabled>&laquo;</button>
-          <button className="pagination-btn active">1</button>
-          <button className="pagination-btn">2</button>
-          <button className="pagination-btn">3</button>
-          <button className="pagination-btn">&raquo;</button>
-        </div>
-      </div>
-
-      {/* Delete Confirmation Modal */}
+      {/* MODAL */}
       {showDeleteModal && (
         <div className="modal-overlay">
-          <div className="modal-content delete-modal">
+          <div className="modal">
             <h3>{t('Confirm Delete')}</h3>
+
             <p>
-              {bulkDeleteMode
-                ? t('Are you sure you want to delete {{count}} selected products? This action cannot be undone.', { count: selectedProducts.length })
-                : t('Are you sure you want to delete "{{title}}"? This action cannot be undone.', { title: productToDelete?.title })
-              }
+              {isBulkDelete
+                ? `Delete ${selectedProducts.length} products?`
+                : `Delete "${productToDelete?.title}"?`}
             </p>
+
             <div className="modal-actions">
-              <button 
-                className="btn-secondary" 
-                onClick={() => {
-                  setShowDeleteModal(false);
-                  setProductToDelete(null);
-                  setBulkDeleteMode(false);
-                }}
-              >
-                {t('Cancel')}
+              <button onClick={() => setShowDeleteModal(false)}>
+                Cancel
               </button>
-              <button className="btn-danger" onClick={handleConfirmDelete}>
-                {t('Delete')}
+
+              <button onClick={handleConfirmDelete} className="btn-danger">
+                Delete
               </button>
             </div>
           </div>
