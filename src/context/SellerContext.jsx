@@ -22,7 +22,7 @@ export const SellerProvider = ({ children }) => {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch('http://localhost:5000/api/products'); // Replace with actual backend URL
+        const response = await fetch('https://goldipay.onrender.com/api/products'); // Replace with actual backend URL
         if (!response.ok) throw new Error('Failed to fetch products');
         const data = await response.json();
         setProducts(data);
@@ -69,7 +69,7 @@ export const SellerProvider = ({ children }) => {
   const addProduct = async (productData) => {
   setLoading(true);
   try {
-    const response = await fetch('http://localhost:5000/api/products', {
+    const response = await fetch('https://goldipay.onrender.com/api/products', {
       method: 'POST',
       body: productData // ✅ FormData directly
     });
@@ -87,7 +87,7 @@ export const SellerProvider = ({ children }) => {
   const updateProduct = async (productId, productData) => {
   setLoading(true);
   try {
-    const response = await fetch(`http://localhost:5000/api/products/${productId}`, {
+    const response = await fetch(`https://goldipay.onrender.com/api/products/${productId}`, {
       method: 'PUT',
       body: productData // ✅ FormData
     });
@@ -105,7 +105,7 @@ export const SellerProvider = ({ children }) => {
   const deleteProduct = async (productId) => {
   setLoading(true);
   try {
-    const response = await fetch(`http://localhost:5000/api/products/${productId}`, {
+    const response = await fetch(`https://goldipay.onrender.com/api/products/${productId}`, {
       method: 'DELETE',
     });
     if (!response.ok) throw new Error('Failed to delete product');
@@ -121,7 +121,7 @@ export const SellerProvider = ({ children }) => {
  const bulkDeleteProducts = async (productIds) => {
   setLoading(true);
   try {
-    const response = await fetch('http://localhost:5000/api/products/bulk', {
+    const response = await fetch('https://goldipay.onrender.com/api/products/bulk', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ productIds })
