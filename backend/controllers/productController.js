@@ -88,8 +88,20 @@ exports.deleteProduct = async (req, res) => {
 exports.bulkDeleteProducts = async (req, res) => {
   try {
     const { productIds } = req.body;
-    await Product.deleteMany({ _id: { $in: productIds } });
-    res.json({ message: "Products deleted successfully" });
+
+    if (!productIds || !Array.isArray(productIds) || productIds.length === 0) {
+      return res.status(400).json({ message: "No product IDs provided" });
+    }
+
+    const result = await Product.deleteMany({
+      _id: { $in: productIds }
+    });
+
+    res.json({
+      message: "Products deleted successfully",
+      deletedCount: result.deletedCount
+    });
+
   } catch (err) {
     console.error("Error bulk deleting products:", err);
     res.status(500).json({ message: err.message });

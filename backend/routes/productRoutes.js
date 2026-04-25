@@ -33,10 +33,11 @@ router.get("/", getProducts);
 // Update product (with optional image upload)
 router.put("/:id", upload.single("image"), updateProduct);
 
-// Delete single product
-router.delete("/:id", deleteProduct);
 
 // Bulk delete products
 router.delete("/bulk", bulkDeleteProducts);
+
+// Delete single product
+router.delete("/:id", deleteProduct);
 
 module.exports = router;

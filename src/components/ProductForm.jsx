@@ -104,7 +104,7 @@ const ProductForm = ({ product, onClose, onSuccess }) => {
     
 
       if (product) {
-        await updateProduct(product.id, formDataToSend);
+        await updateProduct(product._id, formDataToSend);
         setSuccessMessage(t('Product updated successfully!'));
       } else {
         await addProduct(formDataToSend);
