@@ -120,6 +120,7 @@ export const SellerProvider = ({ children }) => {
 
  const bulkDeleteProducts = async (productIds) => {
   setLoading(true);
+  console.log("Sending:", productIds);
   try {
     const response = await fetch('https://goldipay.onrender.com/api/products/bulk', {
       method: 'DELETE',
