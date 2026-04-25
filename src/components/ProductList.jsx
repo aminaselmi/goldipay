@@ -156,13 +156,18 @@ const ProductList = ({ products, onEdit, onRefresh }) => {
                   onChange={() => handleSelectProduct(product._id)}
                 />
               </td>
-
+              <td className="product-info-cell">
+                  <img 
+                    src={`https://goldipay.onrender.com/uploads/${product.image}`} 
+                    alt={product.title}
+                    className="product-thumbnail"></img>
+                  
               <td>
                 <div>
                   <strong>{product.title}</strong>
                 </div>
               </td>
-
+              </td>
               <td>${product.price}</td>
 
               <td>{product.stock}</td>
