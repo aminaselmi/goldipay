@@ -200,7 +200,7 @@ const ProductList = ({ products, onEdit, onRefresh }) => {
       {/* MODAL */}
       {showDeleteModal && (
         <div className="modal-overlay">
-          <div className="modal">
+          <div className="modal-content delete-modal">
             <h3>{t('Confirm Delete')}</h3>
 
             <p>
