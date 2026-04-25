@@ -101,7 +101,7 @@ const DashboardStats = () => {
             </thead>
             <tbody>
               {stats.topProducts.map(product => (
-                <tr key={product.id}>
+                <tr key={product._id}>
                   <td>
                     <div className="product-info">
                       <img src={product.image} alt={product.name} />
