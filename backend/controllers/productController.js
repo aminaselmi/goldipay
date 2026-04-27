@@ -4,10 +4,12 @@ const Product = require("../models/Product");
 // CREATE PRODUCT
 exports.createProduct = async (req, res) => {
   try {
+
     const { title, description, price, category, stock, seller } = req.body;
 
     const image = req.file?.path; // Cloudinary URL
-
+    console.log("BODY:", req.body);
+    console.log("FILE:", req.file);
     if (!image) {
       return res.status(400).json({ message: "Image is required" });
     }
