@@ -162,12 +162,12 @@ const ProductList = ({ products, onEdit, onRefresh }) => {
                     alt={product.title}
                     className="product-thumbnail"></img>
                   
-              <td>
+              
                 <div>
                   <strong>{product.title}</strong>
                 </div>
               </td>
-              </td>
+              
               <td>${product.price}</td>
 
               <td>{product.stock}</td>
