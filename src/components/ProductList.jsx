@@ -12,6 +12,15 @@ const ProductList = ({ products, onEdit, onRefresh }) => {
     updateProductStatus
   } = useSeller();
 
+
+  //
+  const getImageUrl = (img) => {
+  if (!img) return "/placeholder.jpg";
+
+  if (img.startsWith("http")) return img;
+
+  return `https://goldipay.onrender.com/uploads/${img}`;
+};
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
 
@@ -158,7 +167,7 @@ const ProductList = ({ products, onEdit, onRefresh }) => {
               </td>
               <td className="product-info-cell">
                   <img 
-                    src={product.image} 
+                    src={getImageUrl(product.image)} 
                     alt={product.title}
                     className="product-thumbnail"></img>
                   

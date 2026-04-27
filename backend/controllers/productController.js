@@ -6,8 +6,7 @@ exports.createProduct = async (req, res) => {
   try {
     const { title, description, price, category, stock, seller } = req.body;
 
-    // Handle uploaded file
-    const image = req.file ? req.file.filename : null;
+    const image = req.file?.path; // Cloudinary URL
 
     if (!image) {
       return res.status(400).json({ message: "Image is required" });
@@ -20,11 +19,12 @@ exports.createProduct = async (req, res) => {
       category,
       stock,
       seller,
-      image: req.file.path // ✅ Cloudinary URL
+      image
     });
 
     const saved = await product.save();
     res.status(201).json(saved);
+
   } catch (err) {
     console.error("Error creating product:", err);
     res.status(500).json({ message: err.message });
