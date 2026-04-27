@@ -26,7 +26,7 @@ const ProductList = ({ products, onEdit, onRefresh }) => {
     const matchesSearch =
       product.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.sku?.toLowerCase().includes(searchTerm.toLowerCase());
-
+      
     const matchesCategory =
       selectedCategory === 'all' || product.category === selectedCategory;
 
@@ -57,6 +57,7 @@ const ProductList = ({ products, onEdit, onRefresh }) => {
     setProductToDelete(product);
     setIsBulkDelete(false);
     setShowDeleteModal(true);
+    console.log(product.image);
   };
 
   const handleBulkDeleteClick = () => {
@@ -91,7 +92,6 @@ const ProductList = ({ products, onEdit, onRefresh }) => {
     await updateProductStatus(id, status);
     onRefresh();
   };
-
   return (
     <div className="product-list-container">
 
@@ -162,7 +162,6 @@ const ProductList = ({ products, onEdit, onRefresh }) => {
                     alt={product.title}
                     className="product-thumbnail"></img>
                   
-              
                 <div>
                   <strong>{product.title}</strong>
                 </div>
