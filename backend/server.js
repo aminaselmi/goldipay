@@ -49,6 +49,8 @@ app.use(express.static(path.join(__dirname, "../build")));
 app.use((req, res) => {
   res.sendFile(path.join(__dirname, "../build", "index.html"));
 });
+ 
+console.log("Cloudinary test:", require("./config/cloudinary"));
 
 const PORT = process.env.PORT || 5000;
 
