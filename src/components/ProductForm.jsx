@@ -225,7 +225,7 @@ const ProductForm = ({ product, onClose, onSuccess }) => {
                     {product && !imageFile && (
                       <div className="image-preview">
                         <img 
-                          src={`https://goldipay.onrender.com/uploads/${product.image}`} 
+                          src={product.image}
                           alt={t('product')} 
                         />
                       </div>

@@ -23,7 +23,7 @@ const productRoutes = require("./routes/productRoutes");
 
 app.use("/api/products", productRoutes);
 
-app.use("/uploads", express.static("uploads"));
+//app.use("/uploads", express.static("uploads"));
 
 
 const orderRoutes = require("./routes/orderRoutes");

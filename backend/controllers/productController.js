@@ -20,7 +20,7 @@ exports.createProduct = async (req, res) => {
       category,
       stock,
       seller,
-      image
+      image: req.file.path // ✅ Cloudinary URL
     });
 
     const saved = await product.save();
@@ -50,7 +50,7 @@ exports.updateProduct = async (req, res) => {
     // If a new image is uploaded, use it
     const updatedData = { ...req.body };
     if (req.file) {
-      updatedData.image = req.file.filename;
+      updatedData.image = req.file.path; // ✅ update image
     }
 
     const updated = await Product.findByIdAndUpdate(

@@ -158,7 +158,7 @@ const ProductList = ({ products, onEdit, onRefresh }) => {
               </td>
               <td className="product-info-cell">
                   <img 
-                    src={`https://goldipay.onrender.com/uploads/${product.image}`} 
+                    src={product.image} 
                     alt={product.title}
                     className="product-thumbnail"></img>
                   

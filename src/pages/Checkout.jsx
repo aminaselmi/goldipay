@@ -173,7 +173,7 @@ const Checkout = () => {
           <Box key={item.id} mb="1rem">
             <Flex gap="1rem" align="center">
               <Image
-                src={`https://goldipay.onrender.com/uploads/${item.image}`}
+                src={item.image}
                 boxSize="80px"
                 alt={t("Product image")}
               />

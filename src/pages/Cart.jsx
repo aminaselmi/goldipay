@@ -84,7 +84,7 @@ const Cart = () => {
                     key={`{item.id}-{item.size}`}
                   >
                     <Box height={"50%"} width={["100%", "100%", "40%", "30%"]}>
-                      <Image w="100%" src={`https://goldipay.onrender.com/uploads/${item.image}`} alt={t("Product image")} />
+                      <Image w="100%" src={item.image} alt={t("Product image")} />
                     </Box>
                     {/* -----------------------------------UP Image---------- Down description--------------------------------------------------------------------- */}
                     <Box
