@@ -5,6 +5,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
 
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // ✅ NEW
 
   // Load user when app starts
   useEffect(() => {
@@ -13,6 +14,8 @@ export const AuthProvider = ({ children }) => {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
+
+    setLoading(false); // ✅ IMPORTANT
   }, []);
 
   // Login
